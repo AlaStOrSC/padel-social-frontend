@@ -48,7 +48,7 @@ const logoutButton = document.getElementById('logoutButton');
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/users/profile', {
+      const response = await fetch('https://padel-social-backend.onrender.com/api/users/profile', {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },
@@ -64,7 +64,7 @@ const logoutButton = document.getElementById('logoutButton');
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/users', {
+      const response = await fetch('https://padel-social-backend.onrender.com/api/users', {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },
@@ -80,7 +80,7 @@ const logoutButton = document.getElementById('logoutButton');
 
   const fetchMessages = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/messages/${userId}`, {
+      const response = await fetch(`https://padel-social-backend.onrender.com/api/messages/${userId}`, {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },
@@ -100,7 +100,7 @@ const logoutButton = document.getElementById('logoutButton');
 
   const fetchConversations = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/messages/conversations', {
+      const response = await fetch('https://padel-social-backend.onrender.com/api/messages/conversations', {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },
