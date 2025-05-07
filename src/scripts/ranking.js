@@ -1,5 +1,5 @@
 import { Navbar } from '/src/scripts/modules/navbar.js';
-import { logout, getToken, sendFriendRequest, removeFriend } from '/src/scripts/api.js';
+import { logout, getToken, sendFriendRequest, removeFriend, API_BASE_URL } from '/src/scripts/api.js';
 import { connectWebSocket, sendMessage, markAsRead, onMessageReceived } from '/src/scripts/websocket.js';
 import { generateAvatarUrl } from '/src/scripts/utils.js';
 import { checkAuth } from '/src/scripts/utils.js';
@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const chatSendButton = document.getElementById('chatSendButton');
   const conversationsList = document.getElementById('conversationsList');
   const chatConversationsToggle = document.getElementById('chatConversationsToggle');
-  const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api'; 
 
   let currentChatUserId = null;
   let users = [];

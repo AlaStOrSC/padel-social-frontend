@@ -1,5 +1,5 @@
 import { Navbar } from '/src/scripts/modules/navbar.js';
-import { logout, getToken, updateProfilePicture, fetchUserProfile, getFriends, getPendingRequests, acceptFriendRequest, rejectFriendRequest, removeFriend } from './api.js';
+import { logout, getToken, updateProfilePicture, fetchUserProfile, getFriends, getPendingRequests, acceptFriendRequest, rejectFriendRequest, removeFriend, API_BASE_URL } from './api.js';
 import { generateAvatarUrl, checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const friendsList = document.getElementById('friendsList');
   const pendingSentList = document.getElementById('pendingSentList');
   const pendingReceivedList = document.getElementById('pendingReceivedList');
-  const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api'; 
+
 
   if (logoutButton) {
     logoutButton.addEventListener('click', () => {

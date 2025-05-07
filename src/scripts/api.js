@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api'; 
+export const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api'; 
 
 export async function registerUser(userData) {
   try {
