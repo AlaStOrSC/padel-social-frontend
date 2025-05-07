@@ -160,28 +160,30 @@ export async function deleteMatch(matchId) {
   }
 }
 
-export async function updateProfilePicture(formData) {
-  try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
+export const updateProfilePicture = async (formData) => {
+  const token = getToken();
+  const response = await fetch(`${API_BASE_URL}/files/upload-profile-picture`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let errorMessage = 'Error desconocido';
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.error || errorData.message || 'Error al subir la foto de perfil';
+    } catch (err) {
+      const errorText = await response.text();
+      errorMessage = `Error al subir la foto de perfil: ${errorText.substring(0, 100)}...`;
     }
-    const response = await fetch(`${API_BASE_URL}/files/upload-profile-picture`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      body: formData,
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || 'Error al subir la foto de perfil');
-    }
-    return data;
-  } catch (error) {
-    throw new Error(error.message);
+    throw new Error(errorMessage);
   }
-}
+
+  return await response.json();
+};
 
 export const fetchUserProfile = async (retries = 5, delay = 2000) => {
   for (let i = 0; i < retries; i++) {
