@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-    Navbar();
+  Navbar();
 
   const logoutButton = document.getElementById('logoutButton');
   const profilePhoto = document.querySelector('.profile__photo');
@@ -60,10 +60,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (profilePhoto) {
       if (user.profilePicture) {
-        const imageUrl = user.profilePicture.replace(/'/g, "\\'");
-        profilePhoto.style.backgroundImage = `url('${imageUrl}')`;
+        const imageUrl = user.profilePicture.startsWith('http://')
+          ? user.profilePicture.replace('http://', 'https://')
+          : user.profilePicture;
+        profilePhoto.style.backgroundImage = `url('${imageUrl.replace(/'/g, "\\'")}')`;
         const img = new Image();
-        img.src = user.profilePicture;
+        img.src = imageUrl;
         img.onload = () => {
           if (profilePhotoText) {
             profilePhotoText.textContent = 'Cambiar foto';
@@ -111,8 +113,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       const friendElement = document.createElement('div');
       friendElement.className = 'friend-item';
       const photoUrl = friend.profilePicture || generateAvatarUrl(friend.username);
+      const securePhotoUrl = photoUrl.startsWith('http://')
+        ? photoUrl.replace('http://', 'https://')
+        : photoUrl;
       friendElement.innerHTML = `
-        <div class="friend-photo" style="background-image: url('${photoUrl}'); background-size: cover; background-position: center;"></div>
+        <div class="friend-photo" style="background-image: url('${securePhotoUrl}'); background-size: cover; background-position: center;"></div>
         <span>${friend.username}</span>
         <button class="action-button friend-remove" data-user-id="${friend._id}" title="Eliminar amigo">🗑️ Eliminar</button>
       `;
@@ -136,8 +141,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       const requestElement = document.createElement('div');
       requestElement.className = 'friend-request-item';
       const photoUrl = request.profilePicture || generateAvatarUrl(request.username);
+      const securePhotoUrl = photoUrl.startsWith('http://')
+        ? photoUrl.replace('http://', 'https://')
+        : photoUrl;
       requestElement.innerHTML = `
-        <div class="friend-photo" style="background-image: url('${photoUrl}'); background-size: cover; background-position: center;"></div>
+        <div class="friend-photo" style="background-image: url('${securePhotoUrl}'); background-size: cover; background-position: center;"></div>
         <span>Solicitud enviada a ${request.username}</span>
       `;
       pendingSentList.appendChild(requestElement);
@@ -151,8 +159,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       const requestElement = document.createElement('div');
       requestElement.className = 'friend-request-item';
       const photoUrl = request.profilePicture || generateAvatarUrl(request.username);
+      const securePhotoUrl = photoUrl.startsWith('http://')
+        ? photoUrl.replace('http://', 'https://')
+        : photoUrl;
       requestElement.innerHTML = `
-        <div class="friend-photo" style="background-image: url('${photoUrl}'); background-size: cover; background-position: center;"></div>
+        <div class="friend-photo" style="background-image: url('${securePhotoUrl}'); background-size: cover; background-position: center;"></div>
         <span>Solicitud de ${request.username}</span>
         <button class="action-button friend-accept" data-user-id="${request.requesterId}" title="Aceptar solicitud">✅ Aceptar</button>
         <button class="action-button friend-reject" data-user-id="${request.requesterId}" title="Rechazar solicitud">❌ Rechazar</button>

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   connectWebSocket();
 
   const conversations = new Map();
-const logoutButton = document.getElementById('logoutButton');
+  const logoutButton = document.getElementById('logoutButton');
   const rankingTableBody = document.getElementById('rankingTableBody');
   const filterCityInput = document.getElementById('filter-city');
   const filterScoreFromInput = document.getElementById('filter-score-from');
@@ -38,8 +38,7 @@ const logoutButton = document.getElementById('logoutButton');
   let pendingSent = [];
   let pendingReceived = [];
 
-
-  if(logoutButton) {
+  if (logoutButton) {
     logoutButton.addEventListener('click', () => {
       logout();
       window.location.href = 'login.html';
@@ -60,7 +59,6 @@ const logoutButton = document.getElementById('logoutButton');
       return null;
     }
   };
-
 
   const fetchUsers = async () => {
     try {
@@ -119,6 +117,10 @@ const logoutButton = document.getElementById('logoutButton');
       .sort((a, b) => b.score - a.score)
       .forEach((user, index) => {
         const photoUrl = user.profilePicture || generateAvatarUrl(user.username);
+        // Forzar HTTPS en la URL de la imagen
+        const securePhotoUrl = photoUrl.startsWith('http://')
+          ? photoUrl.replace('http://', 'https://')
+          : photoUrl;
         const isFriend = friends.some(friend => friend._id === user._id);
         const isPendingSent = pendingSent.some(request => request.recipientId === user._id);
         const isPendingReceived = pendingReceived.some(request => request.requesterId === user._id);
@@ -137,7 +139,7 @@ const logoutButton = document.getElementById('logoutButton');
           <td>${index + 1}</td>
           <td class="user-info">
             <div class="user-profile">
-              <div class="user-photo" style="background-image: url('${photoUrl}'); background-size: cover; background-position: center;"></div>
+              <div class="user-photo" style="background-image: url('${securePhotoUrl}'); background-size: cover; background-position: center;"></div>
               <span>${user.role === 'admin' ? `<strong style="color: limegreen;">A.</strong>${user.username}` : user.username}</span>
             </div>
           </td>
@@ -358,8 +360,6 @@ const logoutButton = document.getElementById('logoutButton');
     chatConversationsToggle.textContent = isConversationsOpen ? '⬆' : '⬇';
   });
 
-
-  // todo const userProfile = JSON.parse(sessionStorage.getItem('userProfile'));
   const userProfile = await fetchUserProfile();
   if (userProfile) {
     currentUserId = userProfile._id;
