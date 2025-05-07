@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (logoutButton) {
     logoutButton.addEventListener('click', () => {
       logout();
-      window.location.href = 'login.html';
+      window.location.href = '/login';
     });
   }
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!response.ok) {
         if (response.status === 401) {
           logout();
-          window.location.href = 'login.html';
+          window.location.href = '/login';
           return [];
         }
         throw new Error('Error al obtener usuarios');

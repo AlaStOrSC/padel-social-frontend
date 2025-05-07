@@ -35,19 +35,19 @@ function isTokenExpired(token) {
  function checkAuth() {
   const token = getToken();
   if (!token) {
-    window.location.href = 'login.html';
+    window.location.href = '/login';
     return false;
   }
   try {
     if (isTokenExpired(token)) {
       logout(); 
-      window.location.href = 'login.html';
+      window.location.href = '/login';
       return false;
     }
   } catch (error) {
     console.error('Error al verificar el token:', error);
     logout(); 
-    window.location.href = 'login.html';
+    window.location.href = '/login';
     return false;
   }
   return true; 

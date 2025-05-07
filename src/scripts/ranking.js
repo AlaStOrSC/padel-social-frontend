@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (logoutButton) {
     logoutButton.addEventListener('click', () => {
       logout();
-      window.location.href = 'login.html';
+      window.location.href = '/login';
     });
   }
 

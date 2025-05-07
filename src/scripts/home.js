@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   logoutButton.textContent = 'Cerrar Sesión';
   logoutButton.addEventListener('click', () => {
     logout();
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   });
 
   const authActions = document.createElement('div');
