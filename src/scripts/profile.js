@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!token) {
         throw new Error('No se encontró un token de autenticación');
       }
-      const response = await fetch('http://localhost:3000/api/users', {
+      const response = await fetch('https://padel-social-backend.onrender.com/api/users', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
