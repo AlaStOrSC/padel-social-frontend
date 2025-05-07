@@ -1,5 +1,5 @@
 import { updateMatch, saveMatch } from '/src/api.js';
-import { getPadelAdvice } from '/src/api/cohere.js';
+import { getPadelAdvice } from '/src/scripts/api/cohere.js';
 import { MatchDisplay } from '/src/scripts/modules/matchdisplay.js';
 
 const getResultMessage = (match) => {

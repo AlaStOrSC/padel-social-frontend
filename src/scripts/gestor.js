@@ -9,7 +9,7 @@ import {
   updateMatch,
   deleteMatch,
   logout,
-  fetchUserProfile
+  fetchUserProfile,
 } from '/src/scripts/api.js';
 import { getWeather } from '/src/scripts/api/weather.js';
 import { checkAuth } from '/src/scripts/utils.js';
