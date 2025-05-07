@@ -9,10 +9,10 @@ import {
   updateMatch,
   deleteMatch,
   logout,
+  fetchUserProfile
 } from '/src/scripts/api.js';
 import { getWeather } from '/src/scripts/api/weather.js';
 import { checkAuth } from '/src/scripts/utils.js';
-import {fetchUserProfile} from '/src/scripts/api.js'
 
 document.addEventListener('DOMContentLoaded', async () => {
   moment.locale('es');
