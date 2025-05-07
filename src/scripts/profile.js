@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const friendsList = document.getElementById('friendsList');
   const pendingSentList = document.getElementById('pendingSentList');
   const pendingReceivedList = document.getElementById('pendingReceivedList');
+  const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api'; 
 
   if (logoutButton) {
     logoutButton.addEventListener('click', () => {
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!token) {
         throw new Error('No se encontró un token de autenticación');
       }
-      const response = await fetch('https://padel-social-network-backend.onrender.com/api/users', {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

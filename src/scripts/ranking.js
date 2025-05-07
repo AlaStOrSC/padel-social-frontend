@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const chatSendButton = document.getElementById('chatSendButton');
   const conversationsList = document.getElementById('conversationsList');
   const chatConversationsToggle = document.getElementById('chatConversationsToggle');
+  const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api'; 
 
   let currentChatUserId = null;
   let users = [];
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch('https://padel-social-network-backend.onrender.com/api/users/profile', {
+      const response = await fetch(`${API_BASE_URL}/users/profile`, {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('https://padel-social-network-backend.onrender.com/api/users', {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const fetchMessages = async (userId) => {
     try {
-      const response = await fetch(`https://padel-social-network-backend.onrender.com/api/messages/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/messages/${userId}`, {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const fetchConversations = async () => {
     try {
-      const response = await fetch('https://padel-social-network-backend.onrender.com/api/messages/conversations', {
+      const response = await fetch(`${API_BASE_URL}/messages/conversations`, {
         headers: {
           'Authorization': `Bearer ${getToken()}`,
         },

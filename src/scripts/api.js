@@ -191,7 +191,7 @@ export const fetchUserProfile = async (retries = 5, delay = 2000) => {
   for (let i = 0; i < retries; i++) {
     try {
       const token = getToken();
-      const response = await fetch('https://padel-social-network-backend.onrender.com/api/users/profile', {
+      const response = await fetch(`${API_BASE_URL}/users/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
