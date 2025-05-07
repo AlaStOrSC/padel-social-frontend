@@ -1,16 +1,28 @@
+import { getToken } from '/src/scripts/api.js';
+
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://padel-social-network-backend.onrender.com/api'
+  : 'http://localhost:3000/api';
+
 export async function fetchPadelNews() {
-    const apiKey = '401b2fbf75414816b67c3f9578599117';
-    const url = `https://newsapi.org/v2/everything?q=padel&language=es&sortBy=publishedAt&pageSize=4&apiKey=${apiKey}`;
-  
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Error al obtener las noticias');
-      }
-      const data = await response.json();
-      return data.articles;
-    } catch (error) {
-      console.error('Error obteniendo las noticias:', error);
-      throw error;
+  const token = getToken();
+  const url = `${API_BASE_URL}/news`;
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
     }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error obteniendo las noticias:', error);
+    throw error;
   }
+}
