@@ -170,13 +170,15 @@ export const updateProfilePicture = async (formData) => {
     body: formData,
   });
 
+  const clonedResponse = response.clone();
+
   if (!response.ok) {
     let errorMessage = 'Error desconocido';
     try {
       const errorData = await response.json();
       errorMessage = errorData.error || errorData.message || 'Error al subir la foto de perfil';
     } catch (err) {
-      const errorText = await response.text();
+      const errorText = await clonedResponse.text();
       errorMessage = `Error al subir la foto de perfil: ${errorText.substring(0, 100)}...`;
     }
     throw new Error(errorMessage);
