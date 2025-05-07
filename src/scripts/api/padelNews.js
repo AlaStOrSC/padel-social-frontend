@@ -1,6 +1,7 @@
 import { getToken } from '/src/scripts/api.js';
 
-const API_BASE_URL = process.env.NODE_ENV === 'production'
+const isProduction = window.location.hostname !== 'localhost';
+const API_BASE_URL = isProduction
   ? 'https://padel-social-network-backend.onrender.com/api'
   : 'http://localhost:3000/api';
 
