@@ -1,4 +1,4 @@
-import { updateMatch, saveMatch } from '/src/api.js';
+import { updateMatch, saveMatch } from '/src/scripts/api.js';
 import { getPadelAdvice } from '/src/scripts/api/cohere.js';
 import { MatchDisplay } from '/src/scripts/modules/matchdisplay.js';
 
