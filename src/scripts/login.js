@@ -1,4 +1,4 @@
-import { loginUser, getToken, registerUser, fetchUserProfile } from '/src/scripts/api.js';
+import { loginUser, registerUser, fetchUserProfile } from '/src/scripts/api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
