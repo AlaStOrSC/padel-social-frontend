@@ -1,4 +1,4 @@
-import { getToken, logout } from '/src/scripts/api.js';
+import { logout } from '/src/scripts/api.js';
 
 const generateAvatarUrl = (username) => {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=05374d&color=ffff&rounded=true`;
