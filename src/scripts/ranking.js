@@ -2,12 +2,9 @@ import { Navbar } from '/src/scripts/modules/navbar.js';
 import { logout, getToken, sendFriendRequest, removeFriend, fetchConversations, fetchMessages, fetchUserProfile, fetchUsers } from '/src/scripts/api.js';
 import { connectWebSocket, sendMessage, markAsRead, onMessageReceived } from '/src/scripts/websocket.js';
 import { generateAvatarUrl } from '/src/scripts/utils.js';
-import { checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (!checkAuth()) {
-    return;
-  } 
+
 
   Navbar();
 

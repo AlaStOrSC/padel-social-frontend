@@ -1,26 +1,14 @@
-import { getToken } from '/src/scripts/api.js';
-
 let socket = null;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
 const reconnectInterval = 3000;
 let messageCallback = null;
 
-// Determinar la URL del WebSocket según el entorno
-const isProduction = window.location.hostname !== 'localhost';
-const WS_URL = isProduction
-  ? 'wss://padel-social-network-backend.onrender.com'
-  : 'ws://localhost:3000';
+const WS_URL = 'wss://padel-social-network-backend.onrender.com';
 
 const connectWebSocket = () => {
   if (socket && socket.readyState === WebSocket.OPEN) {
     console.log('WebSocket ya está conectado');
-    return;
-  }
-
-  const token = getToken();
-  if (!token) {
-    console.error('No se encontró un token de autenticación. No se puede conectar al WebSocket.');
     return;
   }
 
@@ -30,11 +18,6 @@ const connectWebSocket = () => {
   socket.onopen = () => {
     console.log('WebSocket conectado');
     reconnectAttempts = 0;
-
-    socket.send(JSON.stringify({
-      type: 'auth',
-      token: token,
-    }));
   };
 
   socket.onmessage = (event) => {
@@ -54,6 +37,9 @@ const connectWebSocket = () => {
         }
       } else if (data.type === 'error') {
         console.error('Error del servidor WebSocket:', data.message);
+        if (data.message.includes('autenticación') || data.message.includes('token')) {
+          window.location.href = '/login';
+        }
       }
     } catch (error) {
       console.error('Error al parsear mensaje WebSocket:', error);
@@ -70,6 +56,7 @@ const connectWebSocket = () => {
       }, reconnectInterval);
     } else {
       console.error('Máximo número de intentos de reconexión alcanzado.');
+      window.location.href = '/login';
     }
   };
 
