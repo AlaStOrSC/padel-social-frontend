@@ -13,17 +13,10 @@ import {
 } from '/src/scripts/api.js';
 
 import { getWeather } from '/src/scripts/api/weather.js';
-import { checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   moment.locale('es');
  
-
-  if (!checkAuth()) {
-    return;
-  }
-
-
   const matchCardsContainer = document.getElementById('matchCardsContainer');
   const matchCardTemplate = document.getElementById('match-card-template');
   const filterDateInput = document.getElementById('filter-date');

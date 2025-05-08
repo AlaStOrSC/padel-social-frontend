@@ -1,5 +1,5 @@
 import { Navbar } from '/src/scripts/modules/navbar.js';
-import { logout, getToken, sendFriendRequest, removeFriend, fetchConversations, fetchMessages, fetchUserProfile, fetchUsers } from '/src/scripts/api.js';
+import { logout, sendFriendRequest, removeFriend, fetchConversations, fetchMessages, fetchUserProfile, fetchUsers } from '/src/scripts/api.js';
 import { connectWebSocket, sendMessage, markAsRead, onMessageReceived } from '/src/scripts/websocket.js';
 import { generateAvatarUrl } from '/src/scripts/utils.js';
 

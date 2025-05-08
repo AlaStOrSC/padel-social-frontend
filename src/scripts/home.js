@@ -1,12 +1,9 @@
 import { fetchPadelNews } from '/src/scripts/api/padelNews.js';
 import { Navbar } from '/src/scripts/modules/navbar.js';
 import { logout } from '/src/scripts/api.js';
-import { checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (!checkAuth()) {
-    return;
-  }
+
 
   Navbar();
 
