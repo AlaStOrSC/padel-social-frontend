@@ -336,6 +336,67 @@ export const fetchUsers = async () => {
   }
 };
 
+export const fetchMessages = async (userId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/messages/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await logout();
+        window.location.href = '/login';
+        return [];
+      }
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    const messages = await response.json();
+    return messages.map(msg => ({
+      senderId: msg.sender,
+      content: msg.content,
+      timestamp: msg.timestamp,
+    }));
+  } catch (error) {
+    console.error('Error al obtener mensajes:', error);
+    return [];
+  }
+};
+
+export const fetchConversations = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/messages/conversations`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await logout();
+        window.location.href = '/login';
+        return [];
+      }
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error al obtener conversaciones:', error);
+    return [];
+  }
+};
+
 export async function fetchPadelNews() {
   try {
     const response = await fetch(`${API_BASE_URL}/news`, {
