@@ -42,25 +42,6 @@ export async function loginUser(credentials) {
   }
 }
 
-export async function createMatch(matchData) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/matches`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(matchData),
-      credentials: 'include',
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Error al crear partido');
-    }
-    return data;
-  } catch (error) {
-    throw new Error('Error al crear partido: ' + error.message);
-  }
-}
 
 export async function getMatches() {
   try {
