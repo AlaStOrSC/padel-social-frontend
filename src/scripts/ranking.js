@@ -1,5 +1,5 @@
 import { Navbar } from '/src/scripts/modules/navbar.js';
-import { logout, getToken, sendFriendRequest, removeFriend, API_BASE_URL } from '/src/scripts/api.js';
+import { logout, getToken, sendFriendRequest, removeFriend, fetchConversations, fetchMessages, fetchUserProfile, fetchUsers } from '/src/scripts/api.js';
 import { connectWebSocket, sendMessage, markAsRead, onMessageReceived } from '/src/scripts/websocket.js';
 import { generateAvatarUrl } from '/src/scripts/utils.js';
 import { checkAuth } from '/src/scripts/utils.js';
@@ -45,71 +45,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  const fetchUserProfile = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/users/profile`, {
-        headers: {
-          'Authorization': `Bearer ${getToken()}`,
-        },
-      });
-      if (!response.ok) throw new Error('Error al obtener el perfil del usuario');
-      return await response.json();
-    } catch (error) {
-      console.error('Error:', error);
-      return null;
-    }
-  };
-
-  const fetchUsers = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/users`, {
-        headers: {
-          'Authorization': `Bearer ${getToken()}`,
-        },
-      });
-      if (!response.ok) throw new Error('Error al obtener usuarios');
-      return await response.json();
-    } catch (error) {
-      console.error('Error:', error);
-      alert('No se pudieron cargar los usuarios');
-      return [];
-    }
-  };
-
-  const fetchMessages = async (userId) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/messages/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${getToken()}`,
-        },
-      });
-      if (!response.ok) throw new Error('Error al obtener mensajes');
-      const messages = await response.json();
-      return messages.map(msg => ({
-        senderId: msg.sender,
-        content: msg.content,
-        timestamp: msg.timestamp,
-      }));
-    } catch (error) {
-      console.error('Error:', error);
-      return [];
-    }
-  };
-
-  const fetchConversations = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/messages/conversations`, {
-        headers: {
-          'Authorization': `Bearer ${getToken()}`,
-        },
-      });
-      if (!response.ok) throw new Error('Error al obtener conversaciones');
-      return await response.json();
-    } catch (error) {
-      console.error('Error:', error);
-      return [];
-    }
-  };
 
   const renderUsers = (filteredUsers) => {
     rankingTableBody.innerHTML = '';

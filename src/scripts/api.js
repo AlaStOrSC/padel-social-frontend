@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api'; 
+export const API_BASE_URL = 'https://padel-social-network-backend.onrender.com/api';
 
 export async function registerUser(userData) {
   try {
@@ -27,37 +27,30 @@ export async function loginUser(credentials) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(credentials),
+      credentials: 'include',
     });
+
     const data = await response.json();
+
     if (!response.ok) {
       throw new Error(data.message || 'Error al iniciar sesión');
     }
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-    }
+
     return data;
   } catch (error) {
     throw new Error('Error al iniciar sesión: ' + error.message);
   }
 }
 
-export function getToken() {
-  return localStorage.getItem('token');
-}
-
 export async function createMatch(matchData) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/matches`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(matchData),
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -71,15 +64,12 @@ export async function createMatch(matchData) {
 
 export async function getMatches() {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/matches`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -93,17 +83,13 @@ export async function getMatches() {
 
 export async function updateMatch(matchId, updates) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/matches/${matchId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(updates),
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -114,19 +100,16 @@ export async function updateMatch(matchId, updates) {
     throw new Error('Error al actualizar partido: ' + error.message);
   }
 }
+
 export async function saveMatch(matchId, updates) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/matches/savematches/${matchId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(updates),
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -140,15 +123,12 @@ export async function saveMatch(matchId, updates) {
 
 export async function deleteMatch(matchId) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/matches/${matchId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -160,45 +140,46 @@ export async function deleteMatch(matchId) {
   }
 }
 
-export const updateProfilePicture = async (formData) => {
-  const token = getToken();
-  const response = await fetch(`${API_BASE_URL}/files/upload-profile-picture`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-    body: formData,
-  });
+// export const updateProfilePicture = async (formData) => {
+//   try {
+//     const response = await fetch(`${API_BASE_URL}/files/upload-profile-picture`, {
+//       method: 'POST',
+//       body: formData,
+//       credentials: 'include',
+//     });
 
-  const clonedResponse = response.clone();
+//     const clonedResponse = response.clone();
 
-  if (!response.ok) {
-    let errorMessage = 'Error desconocido';
-    try {
-      const errorData = await response.json();
-      errorMessage = errorData.error || errorData.message || 'Error al subir la foto de perfil';
-    } catch (err) {
-      const errorText = await clonedResponse.text();
-      errorMessage = `Error al subir la foto de perfil: ${errorText.substring(0, 100)}...`;
-    }
-    throw new Error(errorMessage);
-  }
+//     if (!response.ok) {
+//       let errorMessage = 'Error desconocido';
+//       try {
+//         const errorData = await response.json();
+//         errorMessage = errorData.error || errorData.message || 'Error al subir la foto de perfil';
+//       } catch (err) {
+//         const errorText = await clonedResponse.text();
+//         errorMessage = `Error al subir la foto de perfil: ${errorText.substring(0, 100)}...`;
+//       }
+//       throw new Error(errorMessage);
+//     }
 
-  return await response.json();
-};
+//     return await response.json();
+//   } catch (error) {
+//     throw new Error(error.message);
+//   }
+// };
 
 export const fetchUserProfile = async (retries = 5, delay = 2000) => {
   for (let i = 0; i < retries; i++) {
     try {
-      const token = getToken();
       const response = await fetch(`${API_BASE_URL}/users/profile`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
       if (!response.ok) {
         if (response.status === 401) {
-          logout();
+          await logout();
           window.location.href = 'login.html';
           return null;
         }
@@ -213,23 +194,16 @@ export const fetchUserProfile = async (retries = 5, delay = 2000) => {
       return null;
     }
   }
-}
-
-export function logout() {
-  localStorage.removeItem('token');
-}
+};
 
 export async function sendFriendRequest(recipientId) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/users/friends/request/${recipientId}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -243,15 +217,12 @@ export async function sendFriendRequest(recipientId) {
 
 export async function acceptFriendRequest(requesterId) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/users/friends/accept/${requesterId}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -265,15 +236,12 @@ export async function acceptFriendRequest(requesterId) {
 
 export async function rejectFriendRequest(requesterId) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/users/friends/reject/${requesterId}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -287,15 +255,12 @@ export async function rejectFriendRequest(requesterId) {
 
 export async function removeFriend(friendId) {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/users/friends/${friendId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -309,14 +274,11 @@ export async function removeFriend(friendId) {
 
 export async function getFriends() {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/users/friends`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -330,14 +292,11 @@ export async function getFriends() {
 
 export async function getPendingRequests() {
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error('No se encontró un token de autenticación');
-    }
     const response = await fetch(`${API_BASE_URL}/users/friends/requests`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -348,3 +307,130 @@ export async function getPendingRequests() {
     throw new Error(error.message);
   }
 }
+
+export async function logout() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', 
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al cerrar sesión');
+    }
+    return data;
+  } catch (error) {
+    throw new Error('Error al cerrar sesión: ' + error.message);
+  }
+}
+
+export const fetchUsers = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await logout();
+        window.location.href = '/login';
+        return [];
+      }
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    return [];
+  }
+};
+
+export async function fetchPadelNews() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/news`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await logout();
+        window.location.href = '/login';
+      }
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error obteniendo las noticias:', error);
+    throw error;
+  }
+};
+
+export async function createMatch(matchData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/matches`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(matchData),
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await logout();
+        window.location.href = '/login';
+      }
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error al crear partido:', error);
+    throw new Error('Error al crear partido: ' + error.message);
+  }
+};
+
+export const updateProfilePicture = async (formData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/files/upload-profile-picture`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await logout();
+        window.location.href = '/login';
+      }
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error al subir la foto de perfil:', error);
+    throw new Error(error.message);
+  }
+};

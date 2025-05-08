@@ -1,5 +1,5 @@
 import { Navbar } from '/src/scripts/modules/navbar.js';
-import { logout, getToken, updateProfilePicture, fetchUserProfile, getFriends, getPendingRequests, acceptFriendRequest, rejectFriendRequest, removeFriend, API_BASE_URL } from './api.js';
+import { logout, updateProfilePicture, fetchUserProfile, getFriends, getPendingRequests, acceptFriendRequest, rejectFriendRequest, removeFriend, API_BASE_URL } from './api.js';
 import { generateAvatarUrl, checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -27,25 +27,28 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const fetchUsers = async () => {
     try {
-      const token = getToken();
-      if (!token) {
-        throw new Error('No se encontró un token de autenticación');
-      }
       const response = await fetch(`${API_BASE_URL}/users`, {
+        method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
+  
       if (!response.ok) {
         if (response.status === 401) {
-          logout();
+          await logout();
           window.location.href = '/login';
           return [];
         }
-        throw new Error('Error al obtener usuarios');
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+        throw new Error(errorMessage);
       }
+  
       return await response.json();
     } catch (error) {
+      console.error('Error al obtener usuarios:', error);
       return [];
     }
   };
