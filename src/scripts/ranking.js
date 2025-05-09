@@ -42,6 +42,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  function normalizeCity(ciudad) {
+    return ciudad
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+  }
+
 
   const renderUsers = (filteredUsers) => {
     rankingTableBody.innerHTML = '';
@@ -69,15 +76,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         row.innerHTML = `
           <td>${index + 1}</td>
-          <td class="user-info">
-            <div class="user-profile">
-              <div class="user-photo" style="background-image: url('${securePhotoUrl}'); background-size: cover; background-position: center;"></div>
-              <span>${user.role === 'admin' ? `<strong style="color: limegreen;">A.</strong>${user.username}` : user.username}</span>
-            </div>
-          </td>
-          <td>${user.city || 'N/A'}</td>
+          <td><div class="user-photo" style="background-image: url('${securePhotoUrl}'); background-size: cover; background-position: center;"></div></td>
+          <td >${user.role === 'admin' ? `<strong style="color: limegreen;">A.</strong>${user.username}` : user.username}</td>
+          <td class = "mobile-hidden">${user.city || 'N/A'}</td>
           <td>${user.score.toFixed(2)}</td>
-          <td>
+          <td class = "mobile-hidden">
             ${friendButton}
             <button class="action-button chat" data-user-id="${user._id}" data-username="${user.username}" title="Chatear">💬</button>
           </td>
@@ -208,12 +211,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   const applyFilters = () => {
-    const cityFilter = filterCityInput.value.trim().toLowerCase();
+    const cityFilter = normalizeCity(filterCityInput.value.trim());
     const scoreFrom = parseFloat(filterScoreFromInput.value) || 0;
     const scoreTo = parseFloat(filterScoreToInput.value) || 10;
 
     const filteredUsers = users.filter(user => {
-      const city = (user.city ||'N/A').toLowerCase();
+      const city = normalizeCity(user.city || 'N/A');
       const score = user.score;
 
       const matchesCity = cityFilter ? city.includes(cityFilter) : true;

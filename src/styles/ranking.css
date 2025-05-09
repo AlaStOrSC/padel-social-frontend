@@ -104,6 +104,14 @@
 .ranking__table tr:last-child td {
   border-bottom: none;
 }
+.ranking__table thead th:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.ranking__table thead th:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
 
 .user-info {
   display: flex;
@@ -377,6 +385,10 @@
     padding: 0.5rem;
     font-size: 0.9rem;
   }
+  .ranking__table thead th:nth-child(5) {
+    border-top-right-radius:8px; /* Esquina superior derecha */
+    border-bottom-right-radius: 8px; /* Esquina inferior derecha */
+  }
 
   .user-photo {
     width: 30px;
@@ -401,5 +413,8 @@
 
   .conversation-last-message {
     font-size: 0.8rem;
+  }
+  .mobile-hidden{
+    display: none;
   }
 }

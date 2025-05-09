@@ -247,7 +247,7 @@ body {
 
 /* Modal Styles */
 .modal {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -380,6 +380,13 @@ body {
   vertical-align: middle;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
 .tutorial-button,
 .close-tutorial-button {
   background-color: #05374d;
@@ -389,13 +396,10 @@ body {
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-  margin: 10px;
-  margin-left: 48%;
+  margin: 10px 0;
 }
 
-.close-tutorial-button {
-  margin-left: 45%;
-}
+
 
 .tutorial-button:hover,
 .close-tutorial-button:hover {
