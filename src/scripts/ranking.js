@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       .sort((a, b) => b.score - a.score)
       .forEach((user, index) => {
         const photoUrl = user.profilePicture || generateAvatarUrl(user.username);
-        // Forzar HTTPS en la URL de la imagen
         const securePhotoUrl = photoUrl.startsWith('http://')
           ? photoUrl.replace('http://', 'https://')
           : photoUrl;
