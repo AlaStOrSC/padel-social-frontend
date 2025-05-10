@@ -244,6 +244,18 @@ body.menu-open {
 .footer__text {
   font-size: 1rem;
 }
+/* Welcome Message */
+.welcome-message {
+  text-align: center;
+  margin-bottom: 1.5rem; 
+}
+
+.welcome-message h2 {
+  font-size: 2.2rem; 
+  font-weight: 700; 
+  color: var(--padel-blue); 
+  margin: 0; 
+}
 
 /* Responsive Queries */
 

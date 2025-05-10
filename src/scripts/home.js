@@ -1,11 +1,38 @@
 import { fetchPadelNews } from '/src/scripts/api/padelNews.js';
 import { Navbar } from '/src/scripts/modules/navbar.js';
-import { logout } from '/src/scripts/api.js';
+import { logout, fetchUserProfile, getPendingRequestsCount } from '/src/scripts/api.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
 
   Navbar();
+
+  const userProfile = await fetchUserProfile();
+  const userName = userProfile.username;
+
+  const welcomeText = document.getElementById('welcome-text');
+  welcomeText.textContent = `¡Bienvenido, ${userName}!`;
+
+
+
+  try {
+    const { pendingCount } = await getPendingRequestsCount();
+    console.log('Solicitudes pendientes:', pendingCount);
+
+    if (pendingCount >= 0) {
+      const pendingMessage = document.createElement('p');
+      pendingMessage.id = 'pending-message';
+      pendingMessage.className = 'pending-message';
+      pendingMessage.textContent = `Tienes ${pendingCount} solicitudes de amistad nuevas`;
+      pendingMessage.style.color = 'red';
+      pendingMessage.style.marginTop = '10px';
+
+      const welcomeMessageDiv = welcomeText.parentElement;
+      welcomeMessageDiv.appendChild(pendingMessage);
+    }
+  } catch (error) {
+    console.error('Error al obtener el conteo de solicitudes pendientes:', error);
+  }
 
   const logoutButton = document.createElement('button');
   logoutButton.id = 'logoutButton';

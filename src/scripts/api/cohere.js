@@ -1,5 +1,5 @@
 export async function getPadelAdvice(rivalStyle, comments) {
-  const prompt = `Tu respuesta no debe superar las 60 palabras. Buenas, acabo de jugar un partido de pádel al mejor de 3 sets, qué puedo hacer para mejorar mi estilo de pádel de cara a próximos partidos, te paso la información del estilo del rival ${rivalStyle} y comentarios de mi partido ${comments}`;
+  const prompt = `Tu respuesta debe ser en el idioma en el que te haga la pregunta,tu respuesta no debe superar las 100 palabras. Buenas, acabo de jugar un partido de pádel al mejor de 3 sets, qué puedo hacer para mejorar mi estilo de pádel de cara a próximos partidos, te paso la información del estilo del rival ${rivalStyle} y comentarios de mi partido ${comments}`;
 
   try {
     const response = await fetch('https://api.cohere.ai/v1/generate', {

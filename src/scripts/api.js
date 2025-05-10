@@ -476,3 +476,27 @@ export const updateProfilePicture = async (formData) => {
     throw new Error(error.message);
   }
 };
+
+export const getPendingRequestsCount = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/friends/requests/count`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await logout();
+        window.location.href = '/login';
+      }
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error al obtener el conteo de solicitudes pendientes:', error);
+    throw new Error(error.message);
+  }
+};
