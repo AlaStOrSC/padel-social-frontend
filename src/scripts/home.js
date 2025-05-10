@@ -1,6 +1,7 @@
 import { fetchPadelNews } from '/src/scripts/api/padelNews.js';
 import { Navbar } from '/src/scripts/modules/navbar.js';
-import { logout, fetchUserProfile, getPendingRequestsCount } from '/src/scripts/api.js';
+import { logout, fetchUserProfile } from '/src/scripts/api.js';
+import { renderPendingRequestCount } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -15,24 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
-  try {
-    const { pendingCount } = await getPendingRequestsCount();
-    console.log('Solicitudes pendientes:', pendingCount);
-
-    if (pendingCount >= 0) {
-      const pendingMessage = document.createElement('p');
-      pendingMessage.id = 'pending-message';
-      pendingMessage.className = 'pending-message';
-      pendingMessage.textContent = `Tienes ${pendingCount} solicitudes de amistad nuevas`;
-      pendingMessage.style.color = 'red';
-      pendingMessage.style.marginTop = '10px';
-
-      const welcomeMessageDiv = welcomeText.parentElement;
-      welcomeMessageDiv.appendChild(pendingMessage);
-    }
-  } catch (error) {
-    console.error('Error al obtener el conteo de solicitudes pendientes:', error);
-  }
+renderPendingRequestCount(welcomeText, userName);
 
   const logoutButton = document.createElement('button');
   logoutButton.id = 'logoutButton';
