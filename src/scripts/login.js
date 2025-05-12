@@ -37,7 +37,7 @@ loginForm.addEventListener('submit', async (event) => {
         sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         console.log('Perfil guardado en sessionStorage, redirigiendo a home.html...');
         setTimeout(() => {
-          window.location.href = 'home.html';
+          window.location.href = '/home';
         }, 500);
       } else {
         throw new Error('No se pudo obtener el perfil del usuario');
