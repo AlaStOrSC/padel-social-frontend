@@ -11,6 +11,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   Navbar();
 
+  const userProfile = JSON.parse(sessionStorage.getItem('userProfile'));
+  const adminLink = document.getElementById('admin-link');
+  if (adminLink && userProfile && userProfile.role === 'admin') {
+    adminLink.style.display = 'block';
+  } else if (adminLink) {
+    adminLink.style.display = 'none';
+  }
+
   const logoutButton = document.getElementById('logoutButton');
   const profilePhoto = document.querySelector('.profile__photo');
   const profilePictureUpload = document.getElementById('profile-picture-upload');

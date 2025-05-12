@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   connectWebSocket();
 
+
+    const userProfile = JSON.parse(sessionStorage.getItem('userProfile'));
+  const adminLink = document.getElementById('admin-link');
+  if (adminLink && userProfile && userProfile.role === 'admin') {
+    adminLink.style.display = 'block';
+  } else if (adminLink) {
+    adminLink.style.display = 'none';
+  }
   const conversations = new Map();
   const logoutButton = document.getElementById('logoutButton');
   const rankingTableBody = document.getElementById('rankingTableBody');
@@ -298,7 +306,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     chatConversationsToggle.textContent = isConversationsOpen ? '⬆' : '⬇';
   });
 
-  const userProfile = await fetchUserProfile();
   if (userProfile) {
     currentUserId = userProfile._id;
   }

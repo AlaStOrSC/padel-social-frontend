@@ -22,6 +22,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!isAuthenticated) {
     return;
   }
+  Navbar();
+  const userProfile = JSON.parse(sessionStorage.getItem('userProfile'));
+  const adminLink = document.getElementById('admin-link');
+  if (adminLink && userProfile && userProfile.role === 'admin') {
+    adminLink.style.display = 'block';
+  } else if (adminLink) {
+    adminLink.style.display = 'none';
+  }
 
   const matchCardsContainer = document.getElementById('matchCardsContainer');
   const matchCardTemplate = document.getElementById('match-card-template');
@@ -34,10 +42,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const matchForm = document.getElementById('matchForm');
   const appSection = document.getElementById('appSection');
 
-  Navbar();
+
 
   let userRole = null
-  const userProfile = await fetchUserProfile();
   if (userProfile) {
     userRole = userProfile.role; 
     console.log('Rol del usuario:', userRole);

@@ -12,7 +12,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   Navbar();
 
-  const userProfile = await fetchUserProfile();
+  const userProfile = JSON.parse(sessionStorage.getItem('userProfile'));
+  const adminLink = document.getElementById('admin-link');
+  if (adminLink && userProfile && userProfile.role === 'admin') {
+    adminLink.style.display = 'block';
+  } else if (adminLink) {
+    adminLink.style.display = 'none';
+  }
+
   const userName = userProfile.username;
   console.log(userName);
 
