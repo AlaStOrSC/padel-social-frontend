@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleForms();
   });
 
-loginForm.addEventListener('submit', async (event) => {
+  loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
@@ -35,10 +35,10 @@ loginForm.addEventListener('submit', async (event) => {
 
       if (userProfile) {
         sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
-        console.log('Perfil guardado en sessionStorage, redirigiendo a home.html...');
+        console.log('Perfil guardado en sessionStorage, redirigiendo a /home...');
         setTimeout(() => {
-          window.location.href = 'home.html';
-        }, 500); // Retraso de 500ms para asegurar que la cookie se establezca
+          window.location.href = '/home';
+        }, 1000); // Retraso de 1 segundo para asegurar que la cookie se establezca
       } else {
         throw new Error('No se pudo obtener el perfil del usuario');
       }
@@ -64,6 +64,7 @@ loginForm.addEventListener('submit', async (event) => {
       alert('Registro exitoso. Por favor, inicia sesión.');
       toggleForms();
     } catch (error) {
+      console.error('Error al registrarse:', error);
       alert(error.message);
     }
   });
