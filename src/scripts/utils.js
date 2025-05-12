@@ -37,7 +37,7 @@ const renderPendingRequestCount = async (welcomeText, userName) => {
       pendingMessage.id = 'pending-message';
       pendingMessage.className = 'pending-message';
       pendingMessage.textContent = `No tienes nuevas solicitudes de amistad`;
-      pendingMessage.style.color = 'red';
+      pendingMessage.style.color = 'blue';
       pendingMessage.style.marginTop = '10px';
 
       const welcomeMessageDiv = welcomeText.parentElement;

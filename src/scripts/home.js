@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   console.log(userName);
 
   const welcomeText = document.getElementById('welcome-text');
-  welcomeText.textContent = `¡Bienvenido, ${userName}!`;
+  welcomeText.textContent = `¡Bienvenid@, ${userName}!`;
 
 
 
