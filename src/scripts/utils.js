@@ -6,49 +6,49 @@ const generateAvatarUrl = (username) => {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=05374d&color=ffff&rounded=true`;
   };
 
-const renderPendingRequestCount = async (welcomeText, userName) => { 
-
+const renderPendingRequestCount = async (welcomeText, userName) => {
   try {
     const { pendingCount } = await getPendingRequestsCount();
     console.log('Solicitudes pendientes:', pendingCount);
 
-    if (pendingCount === 1) {
-      const pendingMessage = document.createElement('p');
-      pendingMessage.id = 'pending-message';
-      pendingMessage.className = 'pending-message';
-      pendingMessage.textContent = `Tienes ${pendingCount} solicitud de amistad nueva`;
-      pendingMessage.style.color = 'red';
-      pendingMessage.style.marginTop = '10px';
+    const pendingMessage = document.createElement('p');
+    pendingMessage.id = 'pending-message';
+    pendingMessage.className = 'pending-message';
+    pendingMessage.style.marginTop = '10px';
 
-      const welcomeMessageDiv = welcomeText.parentElement;
-      welcomeMessageDiv.appendChild(pendingMessage);
-    } else if (pendingCount > 1) {
-      const pendingMessage = document.createElement('p');
-      pendingMessage.id = 'pending-message';
-      pendingMessage.className = 'pending-message';
-      pendingMessage.textContent = `Tienes ${pendingCount} solicitudes de amistad nuevas`;
-      pendingMessage.style.color = 'red';
-      pendingMessage.style.marginTop = '10px';
+    const config = getMessageConfig(pendingCount);
+    pendingMessage.textContent = config.text;
+    pendingMessage.style.color = config.color;
 
-      const welcomeMessageDiv = welcomeText.parentElement;
-      welcomeMessageDiv.appendChild(pendingMessage);
-    } else if (pendingCount === 0) {
-      const pendingMessage = document.createElement('p');
-      pendingMessage.id = 'pending-message';
-      pendingMessage.className = 'pending-message';
-      pendingMessage.textContent = `No tienes nuevas solicitudes de amistad`;
-      pendingMessage.style.color = 'blue';
-      pendingMessage.style.marginTop = '10px';
-
-      const welcomeMessageDiv = welcomeText.parentElement;
-      welcomeMessageDiv.appendChild(pendingMessage);
-    }
-
+    welcomeText.parentElement.appendChild(pendingMessage);
   } catch (error) {
     console.error('Error al obtener el conteo de solicitudes pendientes:', error);
+    renderErrorMessage(welcomeText.parentElement);
   }
+};
 
-}
+const getMessageConfig = (count) => {
+  if (count === 0) {
+    return {
+      text: 'No tienes nuevas solicitudes de amistad',
+      color: 'blue',
+    };
+  }
+  return {
+    text: `Tienes ${count} solicitud${count === 1 ? '' : 'es'} de amistad nueva${count === 1 ? '' : 's'}`,
+    color: 'red',
+  };
+};
+
+const renderErrorMessage = (parentElement) => {
+  const errorMessage = document.createElement('p');
+  errorMessage.id = 'pending-message';
+  errorMessage.className = 'pending-message';
+  errorMessage.textContent = 'Error al cargar las solicitudes de amistad';
+  errorMessage.style.color = 'orange';
+  errorMessage.style.marginTop = '10px';
+  parentElement.appendChild(errorMessage);
+};
 
 const checkAuth = async () => {
   const isAuthenticated = sessionStorage.getItem('isAuthenticated');
