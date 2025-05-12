@@ -37,7 +37,7 @@ loginForm.addEventListener('submit', async (event) => {
         sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         console.log('Perfil guardado en sessionStorage, redirigiendo a home.html...');
         setTimeout(() => {
-          window.location.href = '/home';
+          window.location.href = 'home.html';
         }, 500); // Retraso de 500ms para asegurar que la cookie se establezca
       } else {
         throw new Error('No se pudo obtener el perfil del usuario');
