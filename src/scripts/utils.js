@@ -31,12 +31,12 @@ const getMessageConfig = (count) => {
   if (count === 0) {
     return {
       text: 'No tienes nuevas solicitudes de amistad',
-      color: '#007BFF;',
+      color: '#007BFF',
     };
   }
   return {
     text: `Tienes ${count} solicitud${count === 1 ? '' : 'es'} de amistad nueva${count === 1 ? '' : 's'}`,
-    color: '#007BFF;',
+    color: '#007BFF',
   };
 };
 
