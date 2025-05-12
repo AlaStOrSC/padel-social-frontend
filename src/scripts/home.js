@@ -8,16 +8,54 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   Navbar();
 
-  const userProfile = await fetchUserProfile();
-  const userName = userProfile.username;
-  console.log(userName);
+const welcomeText = document.getElementById('welcome-text');
+  if (!welcomeText) {
+    console.error('Elemento con ID "welcome-text" no encontrado en el DOM');
+    return;
+  }
 
-  const welcomeText = document.getElementById('welcome-text');
+  let userName = 'Usuario'; // Valor por defecto
+  let userProfile = null;
+
+  // Verificar si el perfil está en sessionStorage
+  const storedProfile = sessionStorage.getItem('userProfile');
+  if (storedProfile) {
+    try {
+      userProfile = JSON.parse(storedProfile);
+      console.log('Perfil obtenido de sessionStorage:', userProfile);
+      if (userProfile && userProfile.username) {
+        userName = userProfile.username;
+      }
+    } catch (error) {
+      console.error('Error al parsear userProfile de sessionStorage:', error);
+    }
+  }
+
+  // Si no se encontró el perfil en sessionStorage o no tiene username, intentar obtenerlo del backend
+  if (!userName || userName === 'Usuario') {
+    try {
+      userProfile = await fetchUserProfile();
+      console.log('Perfil del usuario recibido del backend:', userProfile);
+      if (userProfile && userProfile.username) {
+        userName = userProfile.username;
+        sessionStorage.setItem('userProfile', JSON.stringify(userProfile)); // Actualizar sessionStorage
+      } else {
+        console.warn('No se pudo obtener el username del perfil:', userProfile);
+      }
+    } catch (error) {
+      console.error('Error al obtener el perfil del usuario:', error);
+      // Continuar con el valor por defecto
+    }
+  }
+
   welcomeText.textContent = `¡Bienvenido, ${userName}!`;
 
-
-
-renderPendingRequestCount(welcomeText, userName);
+  // Renderizar el mensaje de solicitudes pendientes
+  try {
+    await renderPendingRequestCount(welcomeText, userName);
+  } catch (error) {
+    console.error('Error al renderizar el conteo de solicitudes pendientes:', error);
+  }
 
   const logoutButton = document.createElement('button');
   logoutButton.id = 'logoutButton';

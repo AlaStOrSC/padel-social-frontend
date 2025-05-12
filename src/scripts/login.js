@@ -21,21 +21,29 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleForms();
   });
 
-  loginForm.addEventListener('submit', async (event) => {
+loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
 
     try {
-      await loginUser({ email, password });
+      const data = await loginUser({ email, password });
+      console.log('Respuesta del login:', data);
+
       const userProfile = await fetchUserProfile();
+      console.log('Perfil del usuario después del login:', userProfile);
+
       if (userProfile) {
         sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
-        window.location.href = 'home.html';
+        console.log('Perfil guardado en sessionStorage, redirigiendo a home.html...');
+        setTimeout(() => {
+          window.location.href = '/home';
+        }, 500); // Retraso de 500ms para asegurar que la cookie se establezca
       } else {
         throw new Error('No se pudo obtener el perfil del usuario');
       }
     } catch (error) {
+      console.error('Error al iniciar sesión:', error);
       alert(error.message);
     }
   });
