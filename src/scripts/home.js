@@ -3,14 +3,33 @@ import { Navbar } from '/src/scripts/modules/navbar.js';
 import { logout, fetchUserProfile } from '/src/scripts/api.js';
 import { renderPendingRequestCount } from '/src/scripts/utils.js';
 
+// Función para esperar a que un elemento esté disponible en el DOM
+const waitForElement = (id, maxRetries = 10, delay = 100) => {
+  return new Promise((resolve, reject) => {
+    let retries = 0;
+    const interval = setInterval(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        clearInterval(interval);
+        resolve(element);
+      } else if (retries >= maxRetries) {
+        clearInterval(interval);
+        reject(new Error(`Elemento con ID "${id}" no encontrado después de ${maxRetries} intentos`));
+      }
+      retries++;
+    }, delay);
+  });
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
-
-
   Navbar();
 
-const welcomeText = document.getElementById('welcome-text');
-  if (!welcomeText) {
-    console.error('Elemento con ID "welcome-text" no encontrado en el DOM');
+  let welcomeText;
+  try {
+    welcomeText = await waitForElement('welcome-text');
+    console.log('Elemento welcome-text encontrado:', welcomeText);
+  } catch (error) {
+    console.error(error.message);
     return;
   }
 
@@ -111,7 +130,7 @@ const welcomeText = document.getElementById('welcome-text');
             imageElement.src = article.urlToImage;
             imageElement.alt = article.title || 'Imagen de la noticia';
           } else if (imageElement) {
-            imageElement.remove(); 
+            imageElement.remove();
           }
 
           const existingLink = newsItems[index].querySelector('.news__item-link');
