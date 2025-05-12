@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  welcomeText.textContent = `¡Bienvenido, ${userName}!`;
+  welcomeText.textContent = `¡Bienvenid@, ${userName}!`;
 
   // Renderizar el mensaje de solicitudes pendientes
   try {
