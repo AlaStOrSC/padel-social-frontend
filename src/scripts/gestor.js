@@ -13,6 +13,7 @@ import {
 } from '/src/scripts/api.js';
 
 import { getWeather } from '/src/scripts/api/weather.js';
+import { checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   moment.locale('es');
@@ -29,10 +30,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const filterStatusSelect = document.getElementById('filter-status');
   const applyFiltersButton = document.getElementById('apply-filters');
   const clearFiltersButton = document.getElementById('clear-filters');
-
   const logoutButton = document.getElementById('logoutButton');
   const matchForm = document.getElementById('matchForm');
   const appSection = document.getElementById('appSection');
+
+  Navbar();
 
   let userRole = null
   const userProfile = await fetchUserProfile();
@@ -198,5 +200,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupTutorialModal();
   }
 
-  Navbar();
+
 });

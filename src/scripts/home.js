@@ -1,7 +1,7 @@
 import { fetchPadelNews } from '/src/scripts/api/padelNews.js';
 import { Navbar } from '/src/scripts/modules/navbar.js';
 import { logout, fetchUserProfile } from '/src/scripts/api.js';
-import { renderPendingRequestCount } from '/src/scripts/utils.js';
+import { renderPendingRequestCount, checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 

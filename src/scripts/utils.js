@@ -51,14 +51,12 @@ const renderPendingRequestCount = async (welcomeText, userName) => {
 }
 
 const checkAuth = async () => {
-  // Verificar si el usuario ya está autenticado en sessionStorage
   const isAuthenticated = sessionStorage.getItem('isAuthenticated');
   if (isAuthenticated === 'true') {
     console.log('Usuario autenticado según sessionStorage, omitiendo verificación con el backend');
     return true;
   }
 
-  // Si no está en sessionStorage, verificar con el backend
   try {
     const userProfile = await fetchUserProfile();
     console.log('Verificación de autenticación con el backend:', userProfile);
@@ -69,9 +67,8 @@ const checkAuth = async () => {
       return false;
     }
 
-    // Guardar el estado de autenticación en sessionStorage
     sessionStorage.setItem('isAuthenticated', 'true');
-    sessionStorage.setItem('userProfile', JSON.stringify(userProfile)); // Actualizar el perfil
+    sessionStorage.setItem('userProfile', JSON.stringify(userProfile)); 
     console.log('Autenticación verificada, estado guardado en sessionStorage');
     return true;
   } catch (error) {

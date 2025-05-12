@@ -1,6 +1,6 @@
 import { Navbar } from '/src/scripts/modules/navbar.js';
 import { logout, updateProfilePicture, fetchUserProfile, getFriends, getPendingRequests, acceptFriendRequest, rejectFriendRequest, removeFriend, API_BASE_URL } from './api.js';
-import { generateAvatarUrl } from '/src/scripts/utils.js';
+import { generateAvatarUrl, checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
