@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración - Padel Social Network</title>
+  <link rel="stylesheet" href="/src/styles/home.css">
+  <link rel="stylesheet" href="/src/styles/admin.css">
+  <script src="/src/scripts/admin.js" type="module" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar__menu">
+      <ul class="navbar__list">
+        <li class="navbar__item">
+          <a href="/home" class="navbar__link">
+            <span class="navbar__icon">🏠</span>
+            <span class="navbar__text">Inicio</span>
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="/gestor" class="navbar__link">
+            <span class="navbar__icon">🎾</span>
+            <span class="navbar__text">Planificador</span>
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="/ranking" class="navbar__link">
+            <span class="navbar__icon">🏆</span>
+            <span class="navbar__text">Ranking</span>
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="/profile" class="navbar__link">
+            <span class="navbar__icon">👤</span>
+            <span class="navbar__text">Perfil</span>
+          </a>
+        </li>
+        <li class="navbar__item" id="admin-link" style="display: none;">
+          <a href="/admin" class="navbar__link">
+            <span class="navbar__icon">🔧</span>
+            <span class="navbar__text">Admin</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="navbar__hamburger" id="hamburger-icon">
+      <span class="navbar__hamburger-bar"></span>
+      <span class="navbar__hamburger-bar"></span>
+      <span class="navbar__hamburger-bar"></span>
+    </div>
+  </nav>
+
+  <header class="header">
+    <h1 class="header__title">Panel de Administración</h1>
+    <div class="header__description">
+      <p>Gestiona los usuarios de Padel Social Network</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="admin-panel">
+      <div class="admin-panel__title">
+        <h2>Lista de Usuarios</h2>
+      </div>
+      <div class="admin-panel__table">
+        <table id="users-table">
+          <thead>
+            <tr>
+              <th>Nombre de usuario</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Teléfono</th>
+              <th>Ciudad</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="users-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__text">© 2025 Padel Social Network. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>

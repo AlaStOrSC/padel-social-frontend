@@ -3,8 +3,11 @@ import { logout, fetchUsers, API_BASE_URL } from '/src/scripts/api.js';
 import { checkAuth } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log('Cargando admin.js...');
+
   const isAuthenticated = await checkAuth();
   if (!isAuthenticated) {
+    console.log('Usuario no autenticado, redirigiendo a /login...');
     return;
   }
 
@@ -15,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-const adminLink = document.getElementById('admin-link');
+  const adminLink = document.getElementById('admin-link');
   if (adminLink && userProfile.role === 'admin') {
     adminLink.style.display = 'block';
   } else if (adminLink) {
@@ -25,6 +28,10 @@ const adminLink = document.getElementById('admin-link');
   Navbar();
 
   const usersTableBody = document.getElementById('users-table-body');
+  if (!usersTableBody) {
+    console.error('Elemento con ID "users-table-body" no encontrado en el DOM');
+    return;
+  }
 
   const renderUsers = (users) => {
     usersTableBody.innerHTML = '';
