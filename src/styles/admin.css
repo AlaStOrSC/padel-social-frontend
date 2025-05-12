@@ -11,6 +11,12 @@
   text-align: center;
 }
 
+.admin-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .admin-panel__table {
   width: 100%;
   overflow-x: auto;
