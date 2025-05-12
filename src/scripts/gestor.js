@@ -16,7 +16,12 @@ import { getWeather } from '/src/scripts/api/weather.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   moment.locale('es');
- 
+
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    return;
+  }
+
   const matchCardsContainer = document.getElementById('matchCardsContainer');
   const matchCardTemplate = document.getElementById('match-card-template');
   const filterDateInput = document.getElementById('filter-date');

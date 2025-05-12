@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleForms();
   });
 
-loginForm.addEventListener('submit', async (event) => {
+  loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
@@ -35,10 +35,11 @@ loginForm.addEventListener('submit', async (event) => {
 
       if (userProfile) {
         sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
-        console.log('Perfil guardado en sessionStorage, redirigiendo a home.html...');
+        sessionStorage.setItem('isAuthenticated', 'true'); 
+        console.log('Perfil y estado de autenticación guardados en sessionStorage, redirigiendo a /home...');
         setTimeout(() => {
           window.location.href = '/home';
-        }, 500);
+        }, 1000);
       } else {
         throw new Error('No se pudo obtener el perfil del usuario');
       }
@@ -64,6 +65,7 @@ loginForm.addEventListener('submit', async (event) => {
       alert('Registro exitoso. Por favor, inicia sesión.');
       toggleForms();
     } catch (error) {
+      console.error('Error al registrarse:', error);
       alert(error.message);
     }
   });

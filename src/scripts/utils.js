@@ -50,4 +50,37 @@ const renderPendingRequestCount = async (welcomeText, userName) => {
 
 }
 
-  export { generateAvatarUrl, renderPendingRequestCount };
+const checkAuth = async () => {
+  // Verificar si el usuario ya está autenticado en sessionStorage
+  const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+  if (isAuthenticated === 'true') {
+    console.log('Usuario autenticado según sessionStorage, omitiendo verificación con el backend');
+    return true;
+  }
+
+  // Si no está en sessionStorage, verificar con el backend
+  try {
+    const userProfile = await fetchUserProfile();
+    console.log('Verificación de autenticación con el backend:', userProfile);
+
+    if (!userProfile) {
+      console.log('No se pudo verificar la autenticación, redirigiendo a /login...');
+      window.location.href = '/login';
+      return false;
+    }
+
+    // Guardar el estado de autenticación en sessionStorage
+    sessionStorage.setItem('isAuthenticated', 'true');
+    sessionStorage.setItem('userProfile', JSON.stringify(userProfile)); // Actualizar el perfil
+    console.log('Autenticación verificada, estado guardado en sessionStorage');
+    return true;
+  } catch (error) {
+    console.error('Error al verificar la autenticación:', error);
+    sessionStorage.removeItem('isAuthenticated');
+    sessionStorage.removeItem('userProfile');
+    window.location.href = '/login';
+    return false;
+  }
+};
+
+  export { generateAvatarUrl, renderPendingRequestCount, checkAuth };

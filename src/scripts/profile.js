@@ -4,6 +4,10 @@ import { generateAvatarUrl } from '/src/scripts/utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) {
+    return;
+  }
 
   Navbar();
 
