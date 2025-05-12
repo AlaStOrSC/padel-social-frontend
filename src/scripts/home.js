@@ -3,21 +3,78 @@ import { Navbar } from '/src/scripts/modules/navbar.js';
 import { logout, fetchUserProfile } from '/src/scripts/api.js';
 import { renderPendingRequestCount } from '/src/scripts/utils.js';
 
+// Función para esperar a que un elemento esté disponible en el DOM
+const waitForElement = (id, maxRetries = 10, delay = 100) => {
+  return new Promise((resolve, reject) => {
+    let retries = 0;
+    const interval = setInterval(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        clearInterval(interval);
+        resolve(element);
+      } else if (retries >= maxRetries) {
+        clearInterval(interval);
+        reject(new Error(`Elemento con ID "${id}" no encontrado después de ${maxRetries} intentos`));
+      }
+      retries++;
+    }, delay);
+  });
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
-
-
   Navbar();
 
-  const userProfile = await fetchUserProfile();
-  const userName = userProfile.username;
-  console.log(userName);
+  let welcomeText;
+  try {
+    welcomeText = await waitForElement('welcome-text');
+    console.log('Elemento welcome-text encontrado:', welcomeText);
+  } catch (error) {
+    console.error(error.message);
+    return;
+  }
 
-  const welcomeText = document.getElementById('welcome-text');
-  welcomeText.textContent = `¡Bienvenid@, ${userName}!`;
+  let userName = 'Usuario'; // Valor por defecto
+  let userProfile = null;
 
+  // Verificar si el perfil está en sessionStorage
+  const storedProfile = sessionStorage.getItem('userProfile');
+  if (storedProfile) {
+    try {
+      userProfile = JSON.parse(storedProfile);
+      console.log('Perfil obtenido de sessionStorage:', userProfile);
+      if (userProfile && userProfile.username) {
+        userName = userProfile.username;
+      }
+    } catch (error) {
+      console.error('Error al parsear userProfile de sessionStorage:', error);
+    }
+  }
 
+  // Si no se encontró el perfil en sessionStorage o no tiene username, intentar obtenerlo del backend
+  if (!userName || userName === 'Usuario') {
+    try {
+      userProfile = await fetchUserProfile();
+      console.log('Perfil del usuario recibido del backend:', userProfile);
+      if (userProfile && userProfile.username) {
+        userName = userProfile.username;
+        sessionStorage.setItem('userProfile', JSON.stringify(userProfile)); // Actualizar sessionStorage
+      } else {
+        console.warn('No se pudo obtener el username del perfil:', userProfile);
+      }
+    } catch (error) {
+      console.error('Error al obtener el perfil del usuario:', error);
+      // Continuar con el valor por defecto
+    }
+  }
 
-renderPendingRequestCount(welcomeText, userName);
+  welcomeText.textContent = `¡Bienvenido, ${userName}!`;
+
+  // Renderizar el mensaje de solicitudes pendientes
+  try {
+    await renderPendingRequestCount(welcomeText, userName);
+  } catch (error) {
+    console.error('Error al renderizar el conteo de solicitudes pendientes:', error);
+  }
 
   const logoutButton = document.createElement('button');
   logoutButton.id = 'logoutButton';
