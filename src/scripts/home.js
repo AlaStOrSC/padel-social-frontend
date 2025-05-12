@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const userProfile = await fetchUserProfile();
   const userName = userProfile.username;
+  console.log(userName);
 
   const welcomeText = document.getElementById('welcome-text');
   welcomeText.textContent = `¡Bienvenido, ${userName}!`;
