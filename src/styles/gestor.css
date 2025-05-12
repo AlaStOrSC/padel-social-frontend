@@ -412,8 +412,8 @@ body {
 }
 
 .logout-button {
-  background-color: #ecff00;
-  color: black;
+  background-color: #007BFF;
+  color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
